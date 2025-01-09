@@ -41,15 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Set onClickListener for the search button
         search.setOnClickListener(view -> performSearch());
-
-        // Add onEditorActionListener to handle Enter key
-        cityName.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                performSearch(); // Trigger search when Enter is pressed
-                return true; // Indicate the action was handled
-            }
-            return false; // Let the system handle other actions
-        });
     }
 
     /**
@@ -73,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
             return; // Stop further processing if city is empty
         }
 
-
+        // Show "Searching..." Toast before performing the search
+        Toast.makeText(MainActivity.this, "Searching...", Toast.LENGTH_SHORT).show();
 
         // Construct the URL with the city name
         url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=d8140b53d0daf1f7de2456435cd301f6";
@@ -87,8 +79,13 @@ public class MainActivity extends AppCompatActivity {
             task.execute(url);
         } catch (Exception e) {
             Toast.makeText(MainActivity.this, "Error: Unable to initiate search.", Toast.LENGTH_LONG).show();
-            isSearchInProgress = false; // Reset the flag in case of failure
+            resetSearchFlag(); // Reset the flag in case of failure
         }
+    }
+
+    private void resetSearchFlag() {
+        // Small delay to ensure task completion before resetting the flag
+        new Handler(Looper.getMainLooper()).postDelayed(() -> isSearchInProgress = false, 500);
     }
 
     // AsyncTask to fetch weather data
@@ -116,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String sb) {
-            isSearchInProgress = false; // Reset the search flag
+            resetSearchFlag(); // Reset the search flag here
             super.onPostExecute(sb);
             if (sb == null) {
                 Toast.makeText(MainActivity.this, "Error: Unable to fetch weather data.", Toast.LENGTH_SHORT).show();
