@@ -3,6 +3,7 @@ package com.example.weather_app;
 import android.os.Bundle;
 import android.os.*;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,21 +28,83 @@ public class MainActivity extends AppCompatActivity {
     Button search;
     TextView show;
     String url;
+    boolean isSearchInProgress = false; // Flag to track search state
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        cityName = findViewById(R.id.cityName);
+        search = findViewById(R.id.searchMaterialButton);
+        show = findViewById(R.id.weather);
+
+        // Set onClickListener for the search button
+        search.setOnClickListener(view -> performSearch());
+
+        // Add onEditorActionListener to handle Enter key
+        cityName.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                performSearch(); // Trigger search when Enter is pressed
+                return true; // Indicate the action was handled
+            }
+            return false; // Let the system handle other actions
+        });
+    }
+
+    /**
+     * Method to perform search logic
+     */
+    private void performSearch() {
+        if (isSearchInProgress) {
+            Toast.makeText(MainActivity.this, "Search is already in progress. Please wait.", Toast.LENGTH_SHORT).show();
+            return; // Prevent multiple searches at the same time
+        }
+
+        // Clear previous error messages or data
+        show.setText("");
+
+        // Get the city name from the user input
+        String city = cityName.getText().toString();
+
+        // Ensure city is not empty and show a "Searching..." Toast
+        if (city == null || city.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Enter City", Toast.LENGTH_SHORT).show();
+            return; // Stop further processing if city is empty
+        }
 
 
-    class getWeather extends AsyncTask<String , Void , String>{
+
+        // Construct the URL with the city name
+        url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=d8140b53d0daf1f7de2456435cd301f6";
+
+        // Set the search flag to true
+        isSearchInProgress = true;
+
+        try {
+            // Fetch weather data asynchronously
+            getWeather task = new getWeather();
+            task.execute(url);
+        } catch (Exception e) {
+            Toast.makeText(MainActivity.this, "Error: Unable to initiate search.", Toast.LENGTH_LONG).show();
+            isSearchInProgress = false; // Reset the flag in case of failure
+        }
+    }
+
+    // AsyncTask to fetch weather data
+    class getWeather extends AsyncTask<String, Void, String> {
         @Override
-        protected String doInBackground(String... urls){
+        protected String doInBackground(String... urls) {
             StringBuilder sb = new StringBuilder();
-            try{
+            try {
                 URL url = new URL(urls[0]);
                 HttpURLConnection urlCon = (HttpURLConnection) url.openConnection();
                 urlCon.connect();
 
                 InputStream input = urlCon.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(input));
-                String line ="";
-                while((line = br.readLine()) != null){
+                String line;
+                while ((line = br.readLine()) != null) {
                     sb.append(line).append("\n");
                 }
                 return sb.toString();
@@ -49,13 +112,14 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
                 return null;
             }
-
         }
+
         @Override
         protected void onPostExecute(String sb) {
+            isSearchInProgress = false; // Reset the search flag
             super.onPostExecute(sb);
             if (sb == null) {
-                show.setText("Error: Unable to fetch weather data.");
+                Toast.makeText(MainActivity.this, "Error: Unable to fetch weather data.", Toast.LENGTH_SHORT).show();
                 return;
             }
             try {
@@ -96,57 +160,11 @@ public class MainActivity extends AppCompatActivity {
                 maxTempText.setText(String.format("Max Temp: %.2f°C", tempMaxCelsius));
                 humidityText.setText(String.format("Humidity: %d%%", humidity));
                 pressureText.setText(String.format("Pressure: %d hPa", pressure));
-
-
-
             } catch (JSONException e) {
-                e.printStackTrace();
-                show.setText("Error: Unable to parse weather data.");
+                Toast.makeText(MainActivity.this, "Error: Unable to parse weather data.", Toast.LENGTH_LONG).show();
             }
         }
-
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-
-
-        cityName = findViewById(R.id.cityName);
-        search = findViewById(R.id.searchMaterialButton);
-        show = findViewById(R.id.weather);
-        final String[] temp = {""};
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view){
-                Toast.makeText(MainActivity.this, "Button Clicked" , Toast.LENGTH_SHORT).show(); //shows notification below the app
-                String city = cityName.getText().toString();
-                try{
-                    if(city!=null) {
-                        url = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=d8140b53d0daf1f7de2456435cd301f6";
-                    }else{
-                        Toast.makeText(MainActivity.this , "Enter City" , Toast.LENGTH_SHORT).show();
-                    }
-                    getWeather task = new getWeather();
-                    temp[0] = task.execute(url).get();
-
-                }catch(ExecutionException e){
-                    e.printStackTrace();
-                }catch(InterruptedException e){
-                    e.printStackTrace();
-                }
-                if(temp[0] == null){
-                    show.setText("Could not be able to find the details");
-                }
-
-            }
-        });
     }
 }
+
+

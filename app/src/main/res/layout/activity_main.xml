@@ -23,8 +23,8 @@
         android:id="@+id/weatherTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Weather App"
-        android:textSize="36sp"
+        android:text="Weather"
+        android:textSize="50sp"
         android:textColor="@android:color/white"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
@@ -36,14 +36,16 @@
         android:layout_width="1000dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/weatherTitle"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="150dp"
         android:hint="Enter City"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:padding="12dp"
         android:background="@drawable/rounded_edittext"
         android:gravity="center_vertical|start"
         android:textColor="@android:color/black"
-        android:textColorHint="#747276" />
+        android:textColorHint="#747276"
+        android:singleLine="true"
+        android:imeOptions="actionDone" />
 
     <!-- Search Button -->
 
@@ -53,31 +55,34 @@
         android:id="@+id/weather"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Weather Details"
+
         android:textSize="20sp"
         android:textColor="@android:color/white"
         android:layout_below="@id/searchMaterialButton"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="160dp"
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/searchMaterialButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_below="@id/weatherTitle"
-        android:layout_marginTop="26dp"
         android:layout_alignParentEnd="true"
-        app:icon="@drawable/search"
-        app:iconSize="24dp"
-        app:iconGravity="textTop"
+        android:layout_marginTop="158dp"
+        android:layout_marginEnd="17dp"
+        android:contentDescription="Search"
         app:backgroundTint="#03A9F4"
-        android:contentDescription="Search" />
+        app:icon="@drawable/search"
+        app:iconGravity="textTop"
+        app:iconSize="24dp" />
+
     <TextView
         android:id="@+id/cityNameDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="360dp"
 
         android:textSize="32sp"
         android:textColor="@android:color/white"
