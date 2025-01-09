@@ -72,5 +72,83 @@
         app:iconGravity="textTop"
         app:backgroundTint="#03A9F4"
         android:contentDescription="Search" />
+    <TextView
+        android:id="@+id/cityNameDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="260dp"
+
+        android:textSize="32sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="sans-serif-medium" />
+
+    <TextView
+        android:id="@+id/temperatureText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/cityNameDisplay"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+
+        android:textSize="28sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="sans-serif-light" />
+    <TextView
+        android:id="@+id/feelsLikeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/temperatureText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="sans-serif" />
+
+    <TextView
+        android:id="@+id/minTempText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/feelsLikeText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="sans-serif" />
+    <TextView
+        android:id="@+id/maxTempText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/minTempText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="sans-serif" />
+    <TextView
+        android:id="@+id/humidityText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/maxTempText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="sans-serif" />
+    <TextView
+        android:id="@+id/pressureText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/humidityText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="sans-serif" />
 
 </RelativeLayout>

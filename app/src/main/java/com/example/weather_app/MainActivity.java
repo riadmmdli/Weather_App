@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 // Parse the JSON response
                 JSONObject jso = new JSONObject(sb);
+                String cityName = jso.getString("name");
                 JSONObject main = jso.getJSONObject("main");
 
                 // Extract values
@@ -77,15 +78,26 @@ public class MainActivity extends AppCompatActivity {
                 double tempMinCelsius = tempMinKelvin - 273.15;
                 double tempMaxCelsius = tempMaxKelvin - 273.15;
 
-                // Format the display text
-                String weatherInfo = String.format(
-                    "Temperature: %.2f°C\nFeels Like: %.2f°C\nMin Temp: %.2f°C\nMax Temp: %.2f°C\n" +
-                    "Humidity: %d%%\nPressure: %d hPa",
-                    tempCelsius, feelsLikeCelsius, tempMinCelsius, tempMaxCelsius, humidity, pressure
-                );
+                // Display City Name and Temperature
+                TextView cityNameDisplay = findViewById(R.id.cityNameDisplay);
+                TextView temperatureText = findViewById(R.id.temperatureText);
+                cityNameDisplay.setText(cityName);
+                temperatureText.setText(String.format("%.2f°C", tempCelsius));
 
-                // Display formatted weather info
-                show.setText(weatherInfo);
+                // Update additional attributes
+                TextView feelsLikeText = findViewById(R.id.feelsLikeText);
+                TextView minTempText = findViewById(R.id.minTempText);
+                TextView maxTempText = findViewById(R.id.maxTempText);
+                TextView humidityText = findViewById(R.id.humidityText);
+                TextView pressureText = findViewById(R.id.pressureText);
+
+                feelsLikeText.setText(String.format("Feels Like: %.2f°C", feelsLikeCelsius));
+                minTempText.setText(String.format("Min Temp: %.2f°C", tempMinCelsius));
+                maxTempText.setText(String.format("Max Temp: %.2f°C", tempMaxCelsius));
+                humidityText.setText(String.format("Humidity: %d%%", humidity));
+                pressureText.setText(String.format("Pressure: %d hPa", pressure));
+
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
