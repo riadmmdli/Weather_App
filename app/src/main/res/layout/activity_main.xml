@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#3662DC">
+
+    <!-- Background image for the app -->
+
+    <!-- Title Text -->
+
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="600dp"
+        android:layout_height="1000dp"
+        android:alpha="0.4"
+        android:scaleType="centerCrop"
+        android:src="@drawable/backgroundd" />
+
+    <TextView
+        android:id="@+id/weatherTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weather App"
+        android:textSize="36sp"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:fontFamily="sans-serif-medium" />
+
+    <!-- City Name Input -->
+    <EditText
+        android:id="@+id/cityName"
+        android:layout_width="1000dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weatherTitle"
+        android:layout_marginTop="20dp"
+        android:hint="Enter City"
+        android:textSize="30dp"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext"
+        android:gravity="center_vertical|start"
+        android:textColor="@android:color/black"
+        android:textColorHint="#747276" />
+
+    <!-- Search Button -->
+
+
+    <!-- Weather Information Display -->
+    <TextView
+        android:id="@+id/weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weather Details"
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:layout_below="@id/searchMaterialButton"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/searchMaterialButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/weatherTitle"
+        android:layout_marginTop="26dp"
+        android:layout_alignParentEnd="true"
+        app:icon="@drawable/search"
+        app:iconSize="24dp"
+        app:iconGravity="textTop"
+        app:backgroundTint="#03A9F4"
+        android:contentDescription="Search" />
+
+</RelativeLayout>
